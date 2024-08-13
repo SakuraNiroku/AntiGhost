@@ -20,7 +20,7 @@ public class AntiGhost implements ClientModInitializer
 {
     static final String MODID="antighost";
     static KeyBinding requestBlocks;
-    
+
     @Override
     public void onInitializeClient()
     {
@@ -31,10 +31,10 @@ public class AntiGhost implements ClientModInitializer
         ClientTickEvents.END_CLIENT_TICK.register(e->keyPressed());
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
             dispatcher.register(
-                ClientCommandManager.literal("ghost").executes(c -> {
-                    this.execute();
-                    return 0;
-                })
+                    ClientCommandManager.literal("ghost").executes(c -> {
+                        this.execute();
+                        return 0;
+                    })
             );
         });
     }
@@ -46,19 +46,19 @@ public class AntiGhost implements ClientModInitializer
             player.sendMessage(Text.translatable("msg.request"), false);
         }
     }
-    
+
     public void execute() {
         MinecraftClient mc=MinecraftClient.getInstance();
         ClientPlayNetworkHandler conn = mc.getNetworkHandler();
         if (conn==null)
             return;
         BlockPos pos=mc.player.getBlockPos();
-        for (int dx=-4; dx<=4; dx++)
-            for (int dy=-4; dy<=4; dy++)
-                for (int dz=-4; dz<=4; dz++) {
+        for (int dx=-100; dx<=100; dx++)
+            for (int dy=-64; dy<=319; dy++)
+                for (int dz=-100; dz<=100; dz++) {
                     PlayerActionC2SPacket packet=new PlayerActionC2SPacket(
-                            PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK, 
-                            new BlockPos(pos.getX()+dx, pos.getY()+dy, pos.getZ()+dz),
+                            PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK,
+                            new BlockPos(pos.getX()+dx, dy, pos.getZ()+dz),
                             Direction.UP       // with ABORT_DESTROY_BLOCK, this value is unused
                     );
                     conn.sendPacket(packet);
