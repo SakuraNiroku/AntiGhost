@@ -53,12 +53,12 @@ public class AntiGhost implements ClientModInitializer
         if (conn==null)
             return;
         BlockPos pos=mc.player.getBlockPos();
-        for (int dx=-100; dx<=100; dx++)
-            for (int dy=-64; dy<=319; dy++)
-                for (int dz=-100; dz<=100; dz++) {
+        for (int dx=-10; dx<=10; dx++)
+            for (int dy=-10; dy<=10; dy++)
+                for (int dz=-10; dz<=10; dz++) {
                     PlayerActionC2SPacket packet=new PlayerActionC2SPacket(
                             PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK,
-                            new BlockPos(pos.getX()+dx, dy, pos.getZ()+dz),
+                            new BlockPos(pos.getX()+dx, pos.getY()+dy, pos.getZ()+dz),
                             Direction.UP       // with ABORT_DESTROY_BLOCK, this value is unused
                     );
                     conn.sendPacket(packet);
